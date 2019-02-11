@@ -1,13 +1,15 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>저녁 메뉴</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %} Django_inrto 실습 {% endblock %}
+{% block body %}
     <h1>저녁 메뉴 추천</h1>
+    {% if dinners == '치킨' %}
+        <p>푸라닭 먹자!</p>
+    {% else %}
     <p>{{ dinners }} 먹자! </p>
-</body>
-</html>
+    {% endif %}
+    <hr>
+    
+    {% for menu in box %}
+    <p> {{ menu }} </p>
+    {% endfor %}
+{% endblock %}

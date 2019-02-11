@@ -15,6 +15,10 @@ def dinner(request):
     # 1) request, 2) template 파일(html)
     # render 선택인자
     # 3) dictionary : 탬플릿에서 쓸 변수 값을 정의
-    return render(request, 'dinner.html', {'dinners': dinners})
+    return render(request, 'dinner.html', {'dinners': dinners, 'box': box})
+    # return ('dinner.html', dinner=dinner, box=box)
     # template는 기본적으로 문법이 jinja2랑 같은데, 장고에서는 DTL을 쓴다.
     # Django Template Language
+
+def you(request):
+    
