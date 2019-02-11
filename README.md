@@ -150,3 +150,36 @@ python manage.py startapp home
    <!-- home/templates/dinner.html -->
    <h1> {{ dinner }} </h1>
    ```
+
+![image_from_ios](https://user-images.githubusercontent.com/44271206/52547094-1ea11500-2e08-11e9-8997-f73a528a7562.jpg)
+
+
+
+## 4. Variable Routing
+
+1. url 설정
+
+   ```python
+   path('home/you/<name>', views.you),
+   path('home/cube/<int:num>', views.cube)
+   ```
+
+   
+
+2. view 파일 설정
+
+   ```python
+   def you(request, name):
+   	return render(request, 'you.html', {'name':name})
+   ```
+
+   
+
+3. 템플릿 파일 설정
+
+   ```django
+   <h1> {{ name }}, 안녕..? </h1>
+   ```
+
+
+
