@@ -2,6 +2,10 @@
 
 ## 1. 시작하기
 
+[`Django_girls`](https://docs.djangoproject.com/ko/2.1/intro/)
+
+
+
 1. 프로젝트 시작하기
 
    ```bash
@@ -43,13 +47,20 @@
    ~/workspace/django_intro $ python manage.py runserver 0.0.0.0:8080
    ```
 
+   ```
+   vi .gitignore
+   복붙
+   ```
+
    ```bash
    gitignore.io
    ```
 
    앞으로 모든 장고 명령어는 프로젝트를 만들 때를 제외하고 `python manage.py`를 활용한다. 따라서 반드시 `pwd`와 `ls`를 통해 현재 bash(터미널) 위치를 확인하자!!
 
-python manage.py startapp home
+```
+python manage.py startapp 이름.py
+```
 
 
 
@@ -180,6 +191,233 @@ python manage.py startapp home
    ```django
    <h1> {{ name }}, 안녕..? </h1>
    ```
+
+
+
+## 5. Form data
+
+1. `ping`
+
+   1. 요청 url 설정
+
+      ```python
+      path('home/ping/', views.ping)
+      ```
+
+   2. view 설정
+
+      ```python
+      def ping(request):
+          return render(request, 'ping.html')
+      ```
+
+   3. template 설정
+
+      ```django
+      <form action='/home/pong/'>
+          <input name='message' type='text'>
+          <input type='submit'>
+      </form>
+      ```
+
+2. `pong`
+
+   1. 요청 url 설정
+
+      ```python
+      path('home/pong/', views.pong)
+      ```
+
+   2. view 설정
+
+      ```python
+      def pong(request):
+      	message = request.GET.get('message')
+      	return render(request, 'pong.html', {'message':message})
+      ```
+
+   3. template 설정
+
+      ```django
+      <h1>{{message}}</h1>
+      ```
+
+3. POST 요청 처리
+
+   1. 요청 url 설정
+
+      ```django
+      <form action="/home/pong/" method="POST">
+      	{% csrf_token %}
+      	 	  
+      </form>
+      ```
+
+   2. view 설정
+
+      ```python
+      def pong(request):
+          message = request.POST.get('message')
+      ```
+
+   - `csrf_token` 은 보안을 위해 django에서 기본적으로 설정되어 있는 것이다.
+     - CSRF 공격: Cross Site Request Forgery
+     - form을 통해 POST요청을 보낸다는 것은 데이터베이스에 반영되는 경우가 대부분인데, 해당 요청을 우리가 만든 정해진 form에서 보내는지 검증하는 것.
+     - 실제로 input type hidden으로 특정한 hash값이 담겨 있는 것을 볼 수 있다.
+     - `settings.py`에 `MIDDLEWARE`설정에 보면 csrf 관련된 내용이 설정된 것을 볼 수 있다.
+
+
+
+## 6. static file 관리
+
+> 정적 파일(images, css, js)을 서버 저장이 되어 있을 때, 이를 각각의 템플릿에 불러오는 방법
+
+### 디렉토리 구조
+
+디렉토리 구조는 `home/static/home/`으로 구성된다. 
+
+이 디렉토리 설정은 `setting.py`의 가장 하단에 `STATIC_URL`에 맞춰서 해야한다. (기본 `/static/`)
+
+1. 파일 생성
+
+   `home/static/home/images/1.jp`
+
+   `home/static/home/stylesheets/style.css`
+
+2. 템플릿 활용
+
+   ```django
+   {% extends 'base.html' %}
+   {% load static %}
+   {% block css %}
+   <link rel="stylesheets" type="text/css" href="{% static 'home/stylesheets/style.css' %}">
+   {% endblock %}
+   {% block body %}
+   <imag src="{% static 'home/images/1.jpg' %}">
+   {% endblock %}
+   ```
+
+
+
+## 7. URL 설정 분리
+
+> 지금과 같은 코드를 짜는 경우에, `django_intro/urls.py`에 모든 url정보가 담기게 된다.
+>
+> 일반적으로 Django 어플리케이션에서 url을 설정하는 방법은 app 별로 `urls.py`를 구성하는 것이다.
+
+
+
+1. `django_intro/urls.py`
+
+   ```python
+   from django.contrib import admin
+   from django.urls import path, include
+   
+   urlpatterns = [
+       path('admin/', admin.site.urls),
+       path('home/', include('home.urls')),
+   ]
+   ```
+
+   - `include`를 통해 `app/urls.py`에 설정된 url을 포함한다.
+
+2. `home/urls.py`
+
+   ```python
+   from django.urls import path
+   # view는 home/views.py
+   from . import views
+   urlpatterns = [
+       path('', views.index)
+   ]
+   ```
+
+   - `home/views.py`파일에서 `index`를 호출하는 url은 `https://<host>/`이 아니라, 
+
+     `https://<host>/home/`이다.
+
+   
+
+## 8. Template 폴더 설정
+
+### 디렉토리 구조
+
+   디렉토리 구조는 `home/templates/home/`으로 구성된다.
+
+   디렉토리 설정은 `settings.py`의 `TEMPLATES`에 다음과 같이 되어 있다.
+
+```python
+   TEMPLATES = [
+       {
+           'BACKEND': 'django.template.backends.django.DjangoTemplates',
+           'DIRS': [os.path.join(BASE_DIR, 'django_intro', 'templates')],
+           'APP_DIRS': True,
+           'OPTIONS': {
+               'context_processors': [
+                   'django.template.context_processors.debug',
+                   'django.template.context_processors.request',
+                   'django.contrib.auth.context_processors.auth',
+                   'django.contrib.messages.context_processors.messages',
+               ],
+           },
+       },
+   ]
+```
+
+- `DIRS`: template를 커스텀하여 경로를 설정할 수 있다.
+
+  - 경로 설정
+
+    ```python
+    os.path.join(BASE_DIR, 'django_intro', 'templates')
+    #=> PROJECT/django_intro/templates/ 
+    ```
+
+- `APP_DIRS` : `INSTALLED_APPS`에 설정된 app의 디렉토리에 있는 `templates`를 템플릿으로 활용한다. (TRUE)
+
+
+
+1. 활용 예시
+
+   ```python
+   # home/views.py
+   def index(request):
+       return render(request, 'home/index.html')
+   ```
+
+   ```python
+   home
+   ├── __init__.py
+   ├── admin.py
+   ├── apps.py
+   ├── migrations
+   │   ├── __init__.py
+   │   └── __pycache__
+   │       └── __init__.cpython-36.pyc
+   ├── models.py
+   ├── templates
+   │   ├── index.html
+   │   └── utilities
+   ├── tests.py
+   ├── urls.py
+   └── views.py
+   ```
+
+   
+
+   
+
+   
+
+   
+
+   
+
+
+
+
+
+
 
 
 
