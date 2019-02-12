@@ -391,13 +391,10 @@ python manage.py startapp 이름.py
    ├── admin.py
    ├── apps.py
    ├── migrations
-   │   ├── __init__.py
-   │   └── __pycache__
-   │       └── __init__.cpython-36.pyc
    ├── models.py
    ├── templates
-   │   ├── index.html
-   │   └── utilities
+   │   └── home
+   │       └── index.html
    ├── tests.py
    ├── urls.py
    └── views.py
@@ -406,18 +403,3 @@ python manage.py startapp 이름.py
    
 
    
-
-   
-
-   
-
-   
-
-
-
-
-
-
-
-
-

@@ -21,5 +21,4 @@ urlpatterns = [
     # 요청이 home/으로 오면, home/urls.py의 설정들에 맞춰 view로 보내준다.
     path('home/', include('home.urls')),
     path('utilities/', include('utilities.urls')),
-    
 ]
