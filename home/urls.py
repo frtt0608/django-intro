@@ -15,3 +15,4 @@ urlpatterns = [
     path('template_example/', views.template_example),
     path('static_example/', views.static_example),
 ]
+
