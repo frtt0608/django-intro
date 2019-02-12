@@ -1,25 +1,26 @@
 <!--템플릿 전용으로는 load, add... 등등-->
-<h1>1. 반복문</h1>
-{% for menu in my_list %}
-    {{ forloop.counter }}
-    {% if forloop.first %}
-        <p>짜장면+고추가루</p>
-    {% else %}
-        <p>{{ menu }}</p>
-    {% endif %}
-{% endfor %}
-{% for user in empty_list %}
-    <p>{{ user }}</p>
-    {% empty %}
-         <p>지금 가입된 유저가 없습니다.</p>
-{% endfor %}
-<hr>
+    <h1>1. 반복문</h1>
+    {% for menu in my_list %}
+        {{ forloop.counter }}
+        {% if forloop.first %}
+            <p>짜장면+고추가루</p>
+        {% else %}
+            <p>{{ menu }}</p>
+        {% endif %}
+    {% endfor %}
+    {% for user in empty_list %}
+        <p>{{ user }}</p>
+        {% empty %}
+             <p>지금 가입된 유저가 없습니다.</p>
+    {% endfor %}
+    <hr>
 
 <h1>2. 조건문</h1>
 {% if '짜장면' in my_list %}
      <p>짜장면은 고추가루 없이 못 먹지~잉</p>
 {% endif %}
 
+<h1>3. length filter</h1>
 {% for message in messages %}
     {% if message|length > 5 %}
         <p>글씨가 너 무 길다??</p>
@@ -28,6 +29,7 @@
     {% endif %}
 {% endfor %}
 <hr>
+
 <h1>4. lorem ipsum : %에 주의하자!</h1>
 {% lorem %}
 <hr>
@@ -61,5 +63,8 @@
 {% now "SHORT_DATE_FORMAT" %}<br>
 {% now "DATE_FORMAT" %}<br>
 {% now "Y년 m월 d일 (D) h:i" %}<br>
+<hr>
+
+{{ datetimenow|date:"SHORT_DATETIME_FORMAT" }}<br>
 
 {{ 'goolge.com'|urlize }}
