@@ -55,7 +55,7 @@ ROOT_URLCONF = 'django_intro.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'django_intro', 'templates')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -69,8 +69,7 @@ TEMPLATES = [
 ]
 # 배포할 때 씀
 WSGI_APPLICATION = 'django_intro.wsgi.application'
-
-
+    
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 # DB설정

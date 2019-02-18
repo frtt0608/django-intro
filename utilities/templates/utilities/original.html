@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>한국어 입력</title>
+</head>
+<body>
+    <form action='/utilities/translated', method="POST">
+        {% csrf_token %}
+        <input type="text" name="text">
+        <input type="submit" value="번역">
+    </form>
+</body>
+</html>

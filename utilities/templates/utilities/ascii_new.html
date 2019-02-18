@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action='/utilities/ascii_make', method="POST">
+        {% csrf_token %}
+        <input type="text", name="text"><br>
+        {% for word in words %}
+        <input type="radio", name="font" value="{{ word }}">{{ word }}
+        <br>
+        {% endfor %}
+        <br>
+        <input type="submit" , value="검색">
+    </form>
+</body>
+
+</html>
